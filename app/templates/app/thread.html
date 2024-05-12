@@ -1,0 +1,118 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="col-md-12 text-center">{{ thread.title }}</h1>
+    </div>
+    <div class="row">
+        <h3 class="col-md-3 text-left">
+            {% if thread.theme == "AL" %} Инопланетная жизнь
+            {% elif thread.theme == "CU" %} Таинственные культы
+            {% elif thread.theme == "GV" %} Правительственный заговор
+            {% elif thread.theme == "IL" %} Заговор иллюминатов
+            {% elif thread.theme == "RI" %} Мировая элита
+            {% else %}
+                Неспецифический заговор
+            {% endif %}
+        </h3>
+        <h5 class="col-md-3 text-center">Создан:<br/>{{ thread.created }}</h5>
+        <h5 class="col-md-3 text-center">Посл. активность:<br/>{{thread.active}}</h5>
+        <h3 class="col-md-3 text-right">Владелец: {{thread.owner}}</h3>
+    </div>
+    {% if thread.image %}
+    <div class="text-center" style="display:flex; justify-content: center">
+        <img src="{{ thread.image.url }}" alt="Баннер" style="max-height: 480px; display: block"/>
+    </div>
+    {% endif %}
+    <h4>{{thread.short_desc}}</h4>
+</div>
+
+<div class="row content-card">
+<div class="col-md-8 col-md-offset-2 text-center scroller">
+{% for comment in comments %}
+    <div class="content-card container">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <h3>{{comment.author}}</h3>
+                <h5>{{comment.created}}</h5>
+            </div>
+            <div class="col-md-9 container-fluid">
+                <div class="row"><p>{{comment.text}}</p></div>
+                {% if comment.image_1 or comment.image_2 or comment.image_3 %}
+                <div class="row" style="height:120px">
+                    <div class="col-md-4 text-center">
+                        {% if comment.image_1 %}
+                        <img src="{{ comment.image_1.url }}" class="to-fit"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 text-center">
+                        {% if comment.image_2 %}
+                        <img src="{{ comment.image_2.url }}" class="to-fit"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 text-center">
+                        {% if comment.image_3 %}
+                        <img class="to-fit" src="{{ comment.image_3.url }}"/>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+</div>
+{% if message != None %}
+<span class="text-center"><div class="text-center alert alert-danger">{{message}}</div></span>
+{% endif %}
+<form сlass="container-fluid" method="POST">
+    {% csrf_token %}
+    <table class="col-md-12 table">
+        {{ commform.as_table }}
+    </table>
+    <button class="submit-button btn btn-primary">Отправить</button>
+</form>
+
+<script>
+        function setinvisible()
+        {
+            $("#im2").parent().parent().addClass("hidden")
+            $('#im3').parent().parent().addClass("hidden")
+        }
+
+        $(window).on("load", setinvisible)
+
+        function ffchange()
+        {
+            if ($('#im1').val() != '')
+            {
+                $('#im2').parent().parent().removeClass("hidden")
+            }
+            else if ($('#im2').val() == '') 
+            {
+                $('#im2').parent().parent().addClass("hidden")
+            }
+        }
+
+        $('#im1').change(ffchange)
+
+        function sfchange()
+        {
+            if ($('#im2').val() != '')
+            {
+                $('#im3').parent().parent().removeClass("hidden")
+            }
+            else if ($('#im3').val() == '')
+            {
+                $('#im3').parent().parent().addClass("hidden")
+            }
+        }
+
+        $('#im2').change(sfchange)
+
+    </script>
+
+{% endblock %}

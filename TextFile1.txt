@@ -1,0 +1,27 @@
+<blockquote>
+	<p> n </p>
+	<footer> <cite title="n"> n </cite> </footer>
+</blockquote>
+
+
+.list-inline
+
+<dl (if horizontal + .dl-horizontal)>
+	<dt> title </dt>
+	<dd> desc </dd>
+	...
+
+.text-left, .text-right, .text-center
+
+<abbr title="Full">Short</abbr>
+
+
+.table
+.table-striped (striped rows)
+.table-bordered (visible columns)
+.table-hover (hover-sensitive rows)
+.table-condensed (small rows)
+.table-responsive (movable on small devices)
+
+rows: .active (hover color), .success (g), .info (b), .warning (y), .danger (r)
+

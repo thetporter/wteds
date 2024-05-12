@@ -1,0 +1,56 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+
+    <span class="text-center"><h1>Создать {% if type == "post" %}пост{% else %}форум{% endif %}:</h1></span>
+    <form enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <table class="table">  
+            {{ form.as_table }}
+        </table>
+        <button class="submit-button btn btn-primary">
+            <p>Отправить</p>
+        </button>
+    </form>
+
+    {% if type == "post" %}
+    <script>
+        function setinvisible()
+        {
+            $("#im2").parent().parent().addClass("hidden")
+            $('#im3').parent().parent().addClass("hidden")
+        }
+
+        $(window).on("load", setinvisible)
+
+        function ffchange()
+        {
+            if ($('#im1').val() != '')
+            {
+                $('#im2').parent().parent().removeClass("hidden")
+            }
+            else if ($('#im2').val() == '') 
+            {
+                $('#im2').parent().parent().addClass("hidden")
+            }
+        }
+
+        $('#im1').change(ffchange)
+
+        function sfchange()
+        {
+            if ($('#im2').val() != '')
+            {
+                $('#im3').parent().parent().removeClass("hidden")
+            }
+            else if ($('#im3').val() == '')
+            {
+                $('#im3').parent().parent().addClass("hidden")
+            }
+        }
+
+        $('#im2').change(sfchange)
+
+    </script>
+    {% endif %}
+{% endblock %}

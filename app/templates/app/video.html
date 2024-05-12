@@ -1,0 +1,15 @@
+{% extends 'app/layout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div><h2 class="text-center">Видео</h2></div>
+<div><h4 class="text-center">Просмотрите материалы. Преисполнитесь в познании.</h4></div>
+
+<div class="text-center">
+    <video controls="controls" src="{% get_media_prefix %}video1.mp4"/>
+</div>
+<div class="text-center">
+    <video controls="controls" src="{% get_media_prefix %}video2.mp4"/>
+</div>
+{% endblock %}

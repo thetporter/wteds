@@ -1,0 +1,73 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>{{ title }}</h1>
+    <h4>{{ message }}</h4>
+</div>
+
+{% if not completed %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button id="mb" class="primary-button submit-button ">Отправить</button>
+</form>
+
+{% else %}
+
+<h1 class="text-center">→ {{ form.siterating.value }} ←</h1>
+<h3 class="text-center">Спасибо за вашу оценку!</h3>
+<p>
+    Вы сказали, что <em><u>"{{ form.feedbacktext.value }}"</u></em>. Мы
+    {% if form.feedbacktype.value == "reg" %} услышали вас и надеемся услышать вновь
+    {% elif form.feedbacktype.value == "que" %} обязательно ответим вам
+    {% elif form.feedbacktype.value == "rep" %} примем необходимые меры
+    {% else %} рассмотрим эту возможность
+    {% endif %}в будущем.
+</p>
+<p>
+    Ваш отзыв {% if not form.publishfeedback.value %} не {% endif %} будет опубликован
+    {% if form.provideas.value == "user" %}от вашего лица
+    {% else %}анонимно
+    {% endif %} в форуме обратной связи.
+</p>
+<a class="btn btn-default" href="{% url 'home' %}">На главную</a>
+
+{% endif %}
+
+<script>
+    function mb_mouseover() {
+        $('#mb').css('background-color', '#0099ff')
+        $('#mb').css('color', 'white')
+    }
+    function mb_mouseleave() {
+        $('#mb').css('background-color', 'white')
+        $('#mb').css('color', 'black')
+    }
+    $('#mb').mouseover(mb_mouseover)
+    $('#mb').mouseout(mb_mouseleave)
+
+    function fbte_takefocus() {
+        $('#fbte').css('background-color', 'dimgray')
+        $('#fbte').css('color', 'white')
+    }
+    function fbte_losefocus() {
+        $('#fbte').css('background-color', 'white')
+        $('#fbte').css('color', 'black')
+    }
+
+    $('#fbte').focus(fbte_takefocus)
+    $('#fbte').blur(fbte_losefocus)
+
+    function fbra_numchange() {
+        if ($('#fbra').val() > 0 && $('#fbra').val() < 11) {
+            $('#fbra').css('background-color', '#99ff66')
+        } else $('#fbra').css('background-color', '#ff6161')
+    }
+
+    $('#fbra').change(fbra_numchange)
+</script>
+
+{% endblock %}
