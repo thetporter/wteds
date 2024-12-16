@@ -1,0 +1,33 @@
+{% extends "app/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+<div>
+    <div class="content-card container">
+        <div class="row">
+            <h1>Заказы {% if type == 0 %}пользователя {{username}} {% endif %}</h1>
+        </div>
+    </div>
+
+    <div class="scroller content-card container" style="height: 75vh">
+        {% for ord in orders %}
+            <div class="content-card row" style="margin-left:5px; margin-right:5px">
+                <a class="col-md-1 btn btn-default" href="{% url 'order' orderid=ord.id %}">{{ord.id}}</a>
+                <div class="vr"/>
+                <div class="col-md-3">
+                    {% if ord.merch.image_1.url != null %}
+                    <img class="to-fit-micro" src="{{ord.merch.image_1}}" alt="{{ord.merch.name}}"/>
+                    {% else %}
+                    <p>{{ord.merch.name}}</p>
+                    {% endif %}
+                </div>
+                <div class="vr"/>
+                <p class="col-md-4">{{ord.placed_by}}, {{ord.creation_date}}</p>
+                <div class="vr"/>
+                <p class="col-md-3">{{ord.status}}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

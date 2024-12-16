@@ -39,6 +39,18 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path('register/', views.registration, name='register'),
     path('admin/', admin.site.urls),
+
+    path('shop/', views.catalogue, name='catalogue'),
+    path('shop/favourite', views.fav, name='fav'),
+    path('shop/<int:merchid>', views.merchpage, name='merchpage'),
+    path('buy/<int:merchid>', views.buy, name='buy'),
+    path('swapfav/<int:merchid>_<int:direction>', views.swapfav, name='swapfav'),
+    path('mercheditor/', views.mercheditorempty, name='mercheditorempty'),
+    path('mercheditor/<int:merchid>', views.mercheditorfilled, name='mercheditorfilled'),
+    path('orders/', views.orders, name='orders'),
+    path('order/<int:orderid>', views.order, name='order'),
+    path('status/<int:orderid>', views.statusupdate, name='statusupdate'),
+    path('deletion/<int:orderid>', views.deletion, name='deletion')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

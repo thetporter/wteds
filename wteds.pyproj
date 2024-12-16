@@ -61,8 +61,13 @@
     <Content Include="app\static\app\img\bg.png" />
     <Content Include="app\static\app\img\favicon.ico" />
     <Content Include="app\static\app\img\logo.png" />
+    <Content Include="app\templates\app\catalogue.html" />
     <Content Include="app\templates\app\create.html" />
     <Content Include="app\templates\app\links.html" />
+    <Content Include="app\templates\app\mercheditor.html" />
+    <Content Include="app\templates\app\merchpage.html" />
+    <Content Include="app\templates\app\orderpage.html" />
+    <Content Include="app\templates\app\orders.html" />
     <Content Include="app\templates\app\pool.html" />
     <Content Include="app\templates\app\postpage.html" />
     <Content Include="app\templates\app\registrator.html" />

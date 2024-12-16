@@ -86,3 +86,16 @@ input[type="checkbox"].input-validation-error {
 .centralise {
     margin: auto;
 }
+
+.expand-v {
+    height: 100%;
+}
+
+.expand-h {
+    width: 100%;
+}
+
+.to-fit-micro {
+    max-width: 100%;
+    max-height: 128px;
+}

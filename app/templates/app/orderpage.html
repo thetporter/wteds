@@ -1,0 +1,45 @@
+{% extends "app/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+    <h1>Заказ {{order.id}} от {{order.creation_date}}</h1>
+    <hr>
+    <div class="container">
+        <div class="row text-center centralise">
+            {% if type == 1 %}
+            <a href="{% url 'statusupdate' orderid=order.id %}" class="col-md-4 btn btn-default text-center" {% if order.status == "Прибыл" %} disabled {% endif %}>Повысить статус</a>
+            <div class="col-md-4"></div>
+            {% endif %}
+            <a href="{% url 'deletion' orderid=order.id %}" class="col-md-4 btn btn-danger centralise text-center">Удалить</a>
+        </div>
+    </div>
+    <table class="table table-dark" style="margin-top: 15px">
+        <tbody>
+            <tr>
+                <th scope="row">Товар</th>
+                <td><a href="{% url 'merchpage' merchid=order.merch.id %}">{{order.merch.name}}</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Количество</th>
+                <td>{{order.amount}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Общая стоимость</th>
+                <td>${{order.totalcost}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Заказчик</th>
+                <td>{{order.placed_by}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Состояние</th>
+                <td>{{order.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

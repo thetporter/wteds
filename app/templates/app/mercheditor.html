@@ -1,0 +1,35 @@
+{% extends "app/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div style="margin-top: 30px">
+    <div class="row">
+        <p class="col-md-5 text-right">Выбор товара:</p>
+        <input id="where" class="col-md-3" type="number" value="{{selected}}"/>
+        <a id="key" class="btn btn-default" onclick="director()">Перейти</a>
+    </div>
+
+    <form class="content-card" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
+
+<script>
+    function director() {
+        let int = $("#where").val()
+        console.log(int)
+        if (int > 0)
+        {
+            location.pathname = `mercheditor/${int}`
+        } else {
+            location.pathname = "mercheditor/"
+        }
+    }
+</script>
+{% endblock %}

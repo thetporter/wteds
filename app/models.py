@@ -82,3 +82,67 @@ class ThreadComment (models.Model):
         verbose_name_plural = "комментарии форума"
 
 admin.site.register(ThreadComment)
+
+class UserExpanded (models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    manager = models.BooleanField(verbose_name = "Менеджер")
+    favs = models.ManyToManyField('Merch', blank = True)
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = "дополнение пользователя"
+        verbose_name_plural = "дополнения"
+
+admin.site.register(UserExpanded)
+
+class Merch (models.Model):
+    name = models.CharField(max_length = 127, verbose_name = "Название")
+    description = models.TextField(verbose_name = "Описание")
+    cost = models.DecimalField(max_digits = 8, decimal_places = 2, verbose_name = "Цена")
+    image_1 = models.ImageField(max_length = 255, null = True, blank = True, verbose_name = "Картинка (1)")
+    image_2 = models.ImageField(max_length = 255, null = True, blank = True, verbose_name = "Картинка (2)")
+    image_3 = models.ImageField(max_length = 255, null = True, blank = True, verbose_name = "Картинка (3)")
+    favof = models.ManyToManyField(UserExpanded, verbose_name = "В избранном у", through = UserExpanded.favs.through, null = True, blank = True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("merchpage", args=[str(self.id)])
+
+    class Meta:
+        db_table = "merch_items"
+        ordering = ["id"]
+        verbose_name = "товар"
+        verbose_name_plural = "товары"
+
+admin.site.register(Merch)
+
+class Order (models.Model):
+    merch = models.ForeignKey(Merch, on_delete = models.CASCADE, verbose_name = "Товары")
+    placed_by = models.ForeignKey(User, verbose_name = "Заказчик", on_delete = models.SET_DEFAULT, default = "Удаленный пользователь")
+    amount = models.IntegerField()
+    totalcost = models.DecimalField(max_digits = 10, decimal_places = 2, verbose_name = "Итого")
+    creation_date = models.DateTimeField(default = datetime.now(), verbose_name = "Создание")
+    status = models.CharField(max_length = 32, db_default = "AS", default = "Собирается",
+                             verbose_name = "", choices = [
+                                ("AS", "Собирается"),
+                                ("SE", "Отправлен"),
+                                ("AR", "Прибыл"),
+                            ])
+    
+    def __str__(self):
+        return "Заказ №"+str(self.id)
+
+    def get_absolute_url(self):
+        return reverse("order", args=[str(self.id)])
+
+    class Meta:
+        db_table = "orders"
+        ordering = ["-creation_date"]
+        verbose_name = "заказ"
+        verbose_name_plural = "заказы"
+
+admin.site.register(Order)

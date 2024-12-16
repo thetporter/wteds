@@ -1,0 +1,61 @@
+{% extends "app/layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+<div class="content-card container" style="margin-top: 30px">
+    <div class="row">
+        {% if authuser == None %}
+            <h1 class="col-md-6">Каталог WTEDS</h1>
+        {% else %}
+            {% if favmode %}
+                <h1 class="col-md-6">Избранные товары пользователя {{authuser.username}}</h1>
+                <div class="col-md-6 container">
+                {% if userex.manager %}
+                    <div class="row">
+                        <a class="col-md-12 btn btn-primary" href="{% url 'mercheditorempty' %}">Редактор товаров</a>
+                    </div>
+                {% endif %}
+                    <div class="row">
+                        <a class="col-md-6 btn btn-primary" href="{% url 'orders' %}">Список заказов</a>
+                        <a class="col-md-6 btn btn-primary" href="{% url 'catalogue' %}"><i class="bi bi-star"></i>Смотреть все</a>
+                    </div>
+                </div>
+            {% else %}
+                <h1 class="col-md-6">Каталог WTEDS</h1>
+                <div class="col-md-6 container">
+                {% if userex.manager %}
+                    <div class="row">
+                        <a class="col-md-12 btn btn-primary" href="{% url 'mercheditorempty' %}">Редактор товаров</a>
+                    </div>
+                {% endif %}
+                    <div class="row">
+                        <a class="col-md-6 btn btn-primary" href="{% url 'orders' %}">Список заказов</a>
+                        <a class="col-md-6 btn btn-primary" href="{% url 'fav' %}"><i class="bi bi-star-fill"></i>Смотреть избранное</a>
+                    </div>
+                </div>
+                    
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="scroller content-card container" style="height: 75vh">
+    {% for merch in merchandise %}
+        <div class="content-card container col-md-3 col-sm-12" style="height:320px">
+            <div class="row">
+                <img class="to-fit" src="{{merch.image_1.url}}"/>
+            </div>
+            <div class="row">
+                <a class="col-md-8" href="{% url 'merchpage' merchid=merch.id %}">{{merch.name}}</a>
+                <div class="col-md-1"></div>
+                <p class="col-md-3 text-right">${{merch.cost}}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+</div>
+{% endblock %}

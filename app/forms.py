@@ -94,3 +94,21 @@ class PostCreationForm(forms.Form):
                                     required = False,
                                     widget = forms.ClearableFileInput({'id': 'im3',
                                                                        'class': 'inherit-hidden'}))
+
+class MerchCreatorForm(forms.Form):
+    name = forms.CharField(max_length = 128, label = "Заголовок", required = True)
+    description = forms.CharField(label = "Основной текст", widget = forms.Textarea(), required = True)
+    cost = forms.DecimalField(label = "Цена", min_value=0, decimal_places = 2, required = True)
+    
+    image_1 = forms.ImageField(label="Изображение",
+                                    required = False,
+                                    widget = forms.ClearableFileInput({'id': 'im1'}))
+    image_2 = forms.ImageField(label="Изображение (2)",
+                                    required = False,
+                                    widget = forms.ClearableFileInput({'id': 'im2'}))
+    image_3 = forms.ImageField(label="Изображение (3)",
+                                    required = False,
+                                    widget = forms.ClearableFileInput({'id': 'im3'}))
+
+class OrderPlacementForm(forms.Form):
+    amount = forms.IntegerField(min_value = 1, max_value = 1000, label="Количество")
